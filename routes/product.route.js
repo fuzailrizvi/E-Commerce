@@ -13,5 +13,28 @@ router.get('/products/:id',async (req,res)=>{
     const product= await ProductModel.findById(id);
     res.render('products/show',{product});
 })
+router.get('/products/:id/edit',async (res,req)=>{
+    const {id}=req.params;
+    const product=await ProductModel.findById(id);
+    res.render('products/edit',{product})
+})
 
+router.put('/products/:id',async (req,res)=>{
+    const {id}=req.params;
+    const product=await ProductModel.findById(id);
+    
+    if(body.title) product.title=body.title;
+    if(body.image) product.image=body.image;
+    if(body.price) product.price=body.image;
+    if(body.description) product.description=body.description;
+
+    await product.save();
+    res.redirect('/products');
+})
+
+router.delete('/products/:id',async (req,res)=>{
+    const {id}=req.params;
+    await ProductModel.findByIdAndDelete(id);
+    res.redirect('/products');
+})
 module.exports=router;
