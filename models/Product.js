@@ -15,7 +15,11 @@ const productSchema=mongoose.Schema({
     },
     image:{
         type:String,
-    }
+    },
+    reviews:[{
+        type:mongoose.Types.ObjectId,
+        ref: 'Review'
+    }]
 })
 
 module.exports=mongoose.model('Product',productSchema);
