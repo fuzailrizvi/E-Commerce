@@ -7,7 +7,7 @@ const reviewSchema=mongoose.Schema({
         max:5,
         required:true,
     },
-    comments:{
+    comment:{
         type:String,
     }
 })

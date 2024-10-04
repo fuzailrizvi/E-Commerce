@@ -1,6 +1,8 @@
 const express=require('express');
 const router=express.Router();
 const ProductModel=require('../models/Product');
+const { validator, productValidator } = require("../middlewares/validator");
+const { productSchema } = require("../Validation/product");
 
 router.get('/products',async (req,res)=>{
     const products=await ProductModel.find();
@@ -8,9 +10,20 @@ router.get('/products',async (req,res)=>{
     
 })
 
+router.get('/products/new',(req,res)=>{
+    res.render('products/new');
+})
+
+router.post('/products',validator(productSchema),async (req,res)=>{
+   const body=req.body;
+   await ProductModel.create(body);
+   res.redirect('/products');
+})
+
 router.get('/products/:id',async (req,res)=>{
     const{id}=req.params;
-    const product= await ProductModel.findById(id);
+    const product= await ProductModel.findById(id).populate('reviews');
+    
     res.render('products/show',{product});
 })
 router.get('/products/:id/edit',async (req,res)=>{

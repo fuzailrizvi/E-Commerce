@@ -32,7 +32,11 @@ app.get('/',(req,res)=>{
     })
 })
 const productRoutes=require('./routes/product.route');
+const reviewRoutes = require('./routes/review.route');
+
+app.use(reviewRoutes);
 app.use(productRoutes);
+
 
 //Server Listen
 app.listen(PORT,()=>{
