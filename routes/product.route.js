@@ -17,6 +17,8 @@ router.get('/products/new',(req,res)=>{
 router.post('/products',validator(productSchema),async (req,res)=>{
    const body=req.body;
    await ProductModel.create(body);
+
+   req.flash("success","Product Added Successfully");
    res.redirect('/products');
 })
 
@@ -44,12 +46,14 @@ router.put('/products/:id',async (req,res)=>{
     if(body.description) product.description=body.description;
 
     await product.save();
+    req.flash("success","Product Updated Successfully");
     res.redirect('/products');
 })
 
 router.delete('/products/:id',async (req,res)=>{
     const {id}=req.params;
     await ProductModel.findByIdAndDelete(id);
+    req.flash("success","Product Deleted Successfully");
     res.redirect('/products');
 })
 module.exports=router;

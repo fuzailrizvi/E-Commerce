@@ -4,6 +4,11 @@ const app=express();
 const ejsMate = require('ejs-mate');
 const methodOverride = require('method-override')
 const mongoose=require('mongoose');
+const flash=require('connect-flash');
+const session=require('express-session');
+const passport = require('passport');
+const Strategy = require('passport-local');
+const UserModel = require('./models/User.model');
 const PORT=5000;
 
 mongoose.connect('mongodb://127.0.0.1:27017/E-Com-DB')
@@ -16,6 +21,22 @@ mongoose.connect('mongodb://127.0.0.1:27017/E-Com-DB')
 //middleware
 app.use(express.urlencoded({extended:true}));
 app.use(methodOverride('_method'));
+
+app.use(session({
+    secret:"some-secret"
+}))
+app.use(flash());
+app.use((req,res,next)=>{
+    app.locals.success=req.flash('success');
+    next();
+})
+
+// setup passport
+app.use(passport.initialize());
+app.use(passport.session());
+passport.use(new Strategy(UserModel.authenticate()));
+passport.serializeUser(UserModel.serializeUser())
+passport.deserializeUser(UserModel.deserializeUser());
 
 //set public folder
 app.use(express.static(path.join(__dirname,'public')));
@@ -33,10 +54,13 @@ app.get('/',(req,res)=>{
 })
 const productRoutes=require('./routes/product.route');
 const reviewRoutes = require('./routes/review.route');
+const authRoutes=require('./routes/auth.route');
+
+
 
 app.use(reviewRoutes);
 app.use(productRoutes);
-
+app.use(authRoutes);
 
 //Server Listen
 app.listen(PORT,()=>{
