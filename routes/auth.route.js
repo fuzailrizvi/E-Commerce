@@ -1,4 +1,5 @@
 const router=require("express").Router();
+const passport = require("passport");
 const UserModel=require('../models/User.model');
 
 router.get('/login',(req,res)=>{
@@ -21,6 +22,14 @@ router.post('/signup', async (req,res)=>{
 
     res.redirect('/login');
 
-
 })
+
+router.post('/login',passport.authenticate('local',{
+    successRedirect:'/products',
+    
+    failureRedirect:'/login',
+    failureFlash:true,
+}))
+
+
 module.exports=router;
