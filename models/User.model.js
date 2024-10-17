@@ -16,6 +16,20 @@ const userSchema=mongoose.Schema({
         required:true,
         enum:['seller','buyer']
     },
+    cart:[
+       {
+        _id:false,
+        product:{
+            type:mongoose.Types.ObjectId,
+            ref:'Product',
+        },
+        quantity:{
+            type: Number,
+            default:1,
+            min:1
+        }
+       }
+    ]
 })
 
 userSchema.plugin(passportLocalMongoose);

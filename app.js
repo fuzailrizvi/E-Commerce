@@ -26,12 +26,7 @@ app.use(session({
     secret:"some-secret"
 }))
 app.use(flash());
-app.use((req,res,next)=>{
-    app.locals.success=req.flash('success');
-    app.locals.error=req.flash('error');
-    app.locals.user=req.user
-    next();
-})
+
 
 // setup passport
 app.use(passport.initialize());
@@ -39,6 +34,17 @@ app.use(passport.session());
 passport.use(new Strategy(UserModel.authenticate()));
 passport.serializeUser(UserModel.serializeUser())
 passport.deserializeUser(UserModel.deserializeUser());
+
+app.use((req,res,next)=>{
+    app.locals.success=req.flash('success');
+    app.locals.error=req.flash('error');
+    app.locals.user=req.user
+    
+    
+    next();
+})
+
+
 
 //set public folder
 app.use(express.static(path.join(__dirname,'public')));
