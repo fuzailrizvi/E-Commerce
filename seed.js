@@ -1,7 +1,7 @@
 const mongoose=require('mongoose');
 const ProductModel=require('./models/Product');
 
-mongoose.connect('mongodb://127.0.0.1:27017/E-Com-DB')
+mongoose.connect('mongodb+srv://fuzailrizvi786:kUnMQ7KNSSpdvspZ@cluster0.y80we.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0')
 .then(()=>{
     console.log('DB Connected Successfully');
     

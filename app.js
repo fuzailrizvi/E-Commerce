@@ -11,7 +11,7 @@ const Strategy = require('passport-local');
 const UserModel = require('./models/User.model');
 const PORT=5000;
 
-mongoose.connect('mongodb://127.0.0.1:27017/E-Com-DB')
+mongoose.connect('mongodb+srv://fuzailrizvi786:kUnMQ7KNSSpdvspZ@cluster0.y80we.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0')
 .then(()=>{
     console.log('DB Conencted');
     
