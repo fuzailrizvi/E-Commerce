@@ -9,6 +9,7 @@ const session=require('express-session');
 const passport = require('passport');
 const Strategy = require('passport-local');
 const UserModel = require('./models/User.model');
+const MongoStore = require('connect-mongo')
 const PORT=5000;
 
 mongoose.connect('mongodb+srv://fuzailrizvi786:kUnMQ7KNSSpdvspZ@cluster0.y80we.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0')
@@ -23,7 +24,16 @@ app.use(express.urlencoded({extended:true}));
 app.use(methodOverride('_method'));
 
 app.use(session({
-    secret:"some-secret"
+    secret:"some-secret",
+    store: MongoStore.create({
+        mongoUrl:"mongodb+srv://fuzailrizvi786:kUnMQ7KNSSpdvspZ@cluster0.y80we.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0",
+        ttl: 7 * 24 * 60 * 60 * 1000
+      }),
+      cookie: {
+        secure: false,
+        httpOnly: true,
+        maxAge: 24 * 60 * 60 * 1000
+      }
 }))
 app.use(flash());
 
