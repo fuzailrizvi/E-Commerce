@@ -12,6 +12,11 @@ router.get('/signup',(req,res)=>{
 
 router.post('/signup', async (req,res)=>{
     const {username,email,password,role}=req.body;
+    const userExist=UserModel.findOne({email});
+    if(userExist){
+        req.flash('error','User Already Exist');
+        return res.redirect('back');
+    }
     const user=new UserModel({
         username,
         email,
